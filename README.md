@@ -42,7 +42,7 @@ iex> "hello" <> " world"
 "hello world"
 ```
 
-Once we finish our portal application at the end of this chapter, we expect to be able to type the following code inside `iex`:
+Once we finish our portal application at the end of this tutorial, we expect to be able to type the following code inside `iex`:
 
 ```iex
 # Shoot two doors: one orange, another blue
@@ -79,7 +79,11 @@ The command above created a new directory named `portal` with some files in it. 
     $ cd portal
     $ mix test
 
-Excellent, we already have a working project with a test suite setup. Let's have a quick overview of the genererated project:
+Excellent, we already have a working project with a test suite set up.
+
+Let's explore the generated project using a text editor. I personally don't give much attention to text editors, I mostly use a stock [Sublime Text 3](http://www.sublimetext.com/3), but you can find [Elixir support for different text editors on the website](http://elixir-lang.org) under the "Code Editor Support" section.
+
+With your editor open, explore the following directories:
 
   * `_build` - where Mix stores compilation artifacts
   * `config` where we configure our project and its dependencies
@@ -87,7 +91,7 @@ Excellent, we already have a working project with a test suite setup. Let's have
   * `mix.exs` - where we define our project name, version and dependencies
   * `test` - where we define our tests
 
-With our project defined, we can now start an `iex` session inside our project. For such, just run:
+We can now start an `iex` session inside our project too. Just run:
 
     $ iex -S mix
 
@@ -143,7 +147,7 @@ iex> [0|list]
 [0, 1, 2, 3]
 ```
 
-## Modeling portal doors with agents
+## Modeling portal doors with Agents
 
 Elixir data structures are immutable. In the examples above, we never mutated the list. We can break a list apart or add new elements to the top but the original list is never modified.
 
@@ -330,7 +334,7 @@ One difference in the snippet above, compared to the one we saw earlier, is that
 
 That's what we will do next.
 
-## Protocols
+## Inspecting portals with Protocols
 
 We already know that data can be printed in `iex`. After all, when we type `1 + 2` in `iex`, we do get `3` back. However, can we customize how our own types are printed?
 
@@ -379,7 +383,7 @@ iex> portal = Portal.transfer(:orange, :blue, [1, 2, 3])
 
 ## Shooting supervised doors
 
-We often hear that the Erlang VM, the virtual machine Elixir runs on, is great for building fault-tolerant applications. One of the reasons for such are the so-called supervision trees.
+We often hear that the Erlang VM, the virtual machine Elixir runs on, alongside the Erlang ecosystem are great for building fault-tolerant applications. One of the reasons for such are the so-called supervision trees.
 
 Our code so far is not supervised. Let's see what happens when we explicitly shutdown one of the door agents:
 
@@ -403,9 +407,9 @@ iex> Portal.push_right(portal)
     (portal) lib/portal.ex:25: Portal.push_right/1
 ```
 
-We got an exit error because there is `:blue` door. You can see there is an `** (EXIT) no process` message following the call. To fix the situation we are going to setup a supervisor that will be responsible for restarting a portal door whenever it crashes.
+We got an exit error because there is no `:blue` door. You can see there is an `** (EXIT) no process` message following our function call. To fix the situation we are going to setup a supervisor that will be responsible for restarting a portal door whenever it crashes.
 
-Remember when we passed the `--sup` flag when creating our `portal` project? We passed that flag because supervisors typically run inside supervision trees and supervision trees are usually started as part of application. All the `--sup` flag does is to create this structure by default for us. Let's open up the `Portal` module:
+Remember when we passed the `--sup` flag when creating our `portal` project? We passed that flag because supervisors typically run inside supervision trees and supervision trees are usually started as part of application. All the `--sup` flag does is to create a supervised structure by default which we can see in our `Portal` module:
 
 ```elixir
 defmodule Portal do
@@ -431,13 +435,13 @@ defmodule Portal do
 end
 ```
 
-The code above makes the `Portal` module an application callback. The application callback must provide a function named `start/2`, which we see above, and this function must start a supervisor representing the root of our supervision tree. Currently our supervisor has no children and that is exactly what we will solve next.
+The code above makes the `Portal` module an application callback. The application callback must provide a function named `start/2`, which we see above, and this function must start a supervisor representing the root of our supervision tree. Currently our supervisor has no children and that is exactly what we will change next.
 
 Replace the `start/2` function above by:
 
 ```elixir
 def start(_type, _args) do
-  import Supervisor.Spec, warn: false
+  import Supervisor.Spec
 
   children = [
     worker(Portal.Door, [])
@@ -450,7 +454,7 @@ end
 
 We have done two changes:
 
-  * We have added a children to the supervisor, of type worker, and the child is represented by the module `Portal.Door`. We pass no argument when the door is being started as the door color will be specified just later on.
+  * We have added a children to the supervisor, of type `worker`, and the child is represented by the module `Portal.Door`. We pass no argument to the worker, just an empty list `[]`, as the door color will be specified just later on.
 
   * We have changed the strategy from `:one_for_one` to `:simple_one_for_one`. Supervisors provide different strategies and the `:simple_one_for_one` is useful when we want to dynamically create children, often with different arguments. This is exactly the case for our portal doors, where we want to spawn multiple doors with different colors.
 
@@ -467,7 +471,7 @@ end
 
 The function above reaches the supervisor named `Portal.Supervisor` and ask a new child to be started. `Portal.Supervisor` is the name of the supervisor we have defined in `start/2` and the child is going to be a `Portal.Door` which was specified as a worker of that supervisor.
 
-Internally, to start the child, the supervisor will invoke `Portal.Door.start_link(color)`, where color is the value passed on the `start_child` call above. If we had invoked `Supervisor.start_child(Portal.Supervisor, [foo, bar, baz])`, the supervisor would have attempted to start a child with `Portal.Door.start_link(foo, bar, baz)`.
+Internally, to start the child, the supervisor will invoke `Portal.Door.start_link(color)`, where color is the value passed on the `start_child/2` call above. If we had invoked `Supervisor.start_child(Portal.Supervisor, [foo, bar, baz])`, the supervisor would have attempted to start a child with `Portal.Door.start_link(foo, bar, baz)`.
 
 Let's give our shooting function a try. Start a new `iex -S mix` session and:
 
@@ -501,9 +505,9 @@ iex> Portal.push_right(portal)
 >
 ```
 
-Notice this time the following `push_right/1` operation worked because the supervisor automatically started another `:blue` portal. Unfortunately the data that was in the blue door before crash is lost but our system was able to catch up quickly.
+Notice this time the following `push_right/1` operation worked because the supervisor automatically started another `:blue` portal. Unfortunately the data that was in the blue door before the crash was lost but our system did recover from the crash.
 
-In practice there are different supervision strategies to choose from and mechanisms to persist data in case something goes wrong, allowing you to choose the devise the proper plans for your applications.
+In practice there are different supervision strategies to choose from as well as mechanisms to persist data in case something goes wrong, allowing you to choose the best option for your applications.
 
 Outstanding!
 
@@ -511,7 +515,7 @@ Outstanding!
 
 With our portals working, we are ready to give distributed transfers a try. This can be extra awesome if you launch the code in two different machines in the same network. However, if you don't have another machine handy, it will work just fine.
 
-It happens that we can start an `iex` session as node inside of a network by passing the `--sname` option. Let's give it a try:
+We can start an `iex` session as node inside of a network by passing the `--sname` option. Let's give it a try:
 
     $ iex --sname room1 -S mix
     Interactive Elixir - press Ctrl+C to exit (type h() ENTER for help)
@@ -530,7 +534,7 @@ Let's start another `iex` session named `room2`:
 
     $ iex --sname room2 -S mix
 
-> Note: if you want to start this session in another computer, you just need to have the same source code on both machines and that there is a file named `~/.erlang.cookie` on both machines with the exact the same content.
+> Note: if you want to start this session in another computer, you just need to have the same source code on both machines and guarantee there is a file named `~/.erlang.cookie` on both machines with the exact the same content.
 
 The Agent API out of the box allows us to do cross-node requests. All we need to do is to pass the node name where the named agent we want to reach is running when invoking the `Portal.Door` functions. For example, let's reach the blue door in room1:
 
@@ -539,7 +543,7 @@ iex> Portal.Door.get({:blue, :"room1@COMPUTER-NAME"})
 []
 ```
 
-Excellent! This means we can have distributed transfer by simply shooting a door and using the node names. Still on `room2`, let's try:
+Excellent! This means we can have distributed transfer by simply using node names. Still on `room2`, let's try:
 
 ```iex
 iex> Portal.shoot(:orange)
@@ -565,7 +569,7 @@ Awesome. We have distributed transfers working on our code base without changing
 
 ## Wrapping up
 
-So we have reached the end of this guide on how to get started programming with Elixir! It was a fun ride and we quickly went from manually starting doors to shooting fault-tolerant doors for distributed portal transfers!
+So we have reached the end of this guide on how to get started with Elixir! It was a fun ride and we quickly went from manually starting doors processes to shooting fault-tolerant doors for distributed portal transfers!
 
 We challenge you to continue learning and exploring more of Elixir by taking your portal application to the next level with:
 
