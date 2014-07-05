@@ -168,7 +168,7 @@ iex> Agent.get(agent, fn list -> list end)
 
 In the example above, we have created a new agent passing a function that returns the initial state of an empty list. The agent returns `{:ok, #PID<0.61.0>}`.
 
-Curly brackets in Elixir specify a tuple and the tuple above contains the atom `:ok` and a process identifier (PID). We use atoms in Elixir as tags. In the example above, we are tagging the agents was successfully started.
+Curly brackets in Elixir specify a tuple and the tuple above contains the atom `:ok` and a process identifier (PID). We use atoms in Elixir as tags. In the example above, we are tagging the agents as successfully started.
 
 The `#PID<...>` is a process identifier for the agent. When we say processes in Elixir, we don't mean Operating System processes, but rather Elixir Processes, which are light-weight and isolated, allowing us to run hundreds of thousands of them in the same machine.
 
@@ -300,7 +300,7 @@ def push_right(portal) do
 end
 ```
 
-We have define our `Portal` struct and a `Portal.transfer/3` function (the `/3` indicates it expects three arguments). Let's give this transfer a try. Start another shell with `iex -S mix` so our changes are compiled and type:
+We have defined our `Portal` struct and a `Portal.transfer/3` function (the `/3` indicates it expects three arguments). Let's give this transfer a try. Start another shell with `iex -S mix` so our changes are compiled and type:
 
 ```iex
 # Start doors
@@ -363,7 +363,7 @@ defimpl Inspect, for: Portal do
 end
 ```
 
-In the snippet above, we have implemented the `Inspect` protocol for the `Portal` struct. The protocol expects just one function named `inspect` to be implemented. The function expects two arguments, the first is the `Portal` struct itself and the second is a set of options, which we don't care for now.
+In the snippet above, we have implemented the `Inspect` protocol for the `Portal` struct. The protocol expects just one function named `inspect` to be implemented. The function expects two arguments, the first is the `Portal` struct itself and the second is a set of options, which we don't care about for now.
 
 Then we call `inspect` multiple times, to get a text representation of both `left` and `right` doors, as well as to get a representation of the data inside the doors. Finally, we return a string containing the portal presentation properly aligned.
 
@@ -534,7 +534,7 @@ Let's start another `iex` session named `room2`:
 
     $ iex --sname room2 -S mix
 
-> Note: if you want to start this session in another computer, you just need to have the same source code on both machines and guarantee there is a file named `~/.erlang.cookie` on both machines with the exact the same content.
+> Note: if you want to start this session in another computer, you just need to have the same source code on both machines and guarantee there is a file named `~/.erlang.cookie` on both machines with the exact same content.
 
 The Agent API out of the box allows us to do cross-node requests. All we need to do is to pass the node name where the named agent we want to reach is running when invoking the `Portal.Door` functions. For example, let's reach the blue door in room1:
 
@@ -571,7 +571,7 @@ Awesome. We have distributed transfers working on our code base without changing
 
 So we have reached the end of this guide on how to get started with Elixir! It was a fun ride and we quickly went from manually starting doors processes to shooting fault-tolerant doors for distributed portal transfers!
 
-We challenge you to continue learning and exploring more of Elixir by taking your portal application to the next level with:
+We challenge you to continue learning and exploring more of Elixir by taking your portal application to the next level:
 
   * Add a `Portal.push_left/1` function that transfers the data in the other direction. How can you avoid the code duplication existing between the `push_left/1` and `push_right/1` functions?
 
