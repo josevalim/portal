@@ -3,13 +3,13 @@ Portal
 
 [Portal is a game](http://en.wikipedia.org/wiki/Portal_(video_game)) that comprises of a series of puzzles that must be solved by teleporting the player's character and simple objects from one place to another.
 
-In oder to teleport, the player use the Portal gun to shoot doors into flat planes, like a floor or a wall, and entering in one of those doors teleport you to the other.
+In oder to teleport, the player use the Portal gun to shoot doors into flat planes, like a floor or a wall, and entering in one of those doors teleport you to the other:
 
-> Add portal illustration here. The illustration should have two panels, both featuring two doors of different colors (preferrably orange and blue). The first panel has the player before entering the whole and the next panel should show him halfway through the transition.
+![Portal transfer](portal-drop.jpeg)
 
 In this guide we will use the [Elixir programming language](http://elixir-lang.org/getting_started/1.html) to build portals by shooting doors of different colors and transfering data in between them! We will even learn how we can have doors distributed accross different machines in our network:
 
-> Modified portal illustration. It is the same illustration as above but it will feature a list containing [1, 2, 3, 4] instead of an object / sticky man.
+![Data transter portal](portal-list.jpeg)
 
 Here is what we will learn about:
 
