@@ -44,7 +44,7 @@ iex> # This is a code comment
 nil
 ```
 
-Besides numbers and strings above, we also use frequently the following data types:
+Besides numbers and strings above, we also frequently use the following data types:
 
 ```iex
 iex> :atom           # An identifier (known as Symbols in other languages)
@@ -252,7 +252,7 @@ iex> Portal.Door.pop(:pink)
 
 Excellent!
 
-One interesting aspect of Elixir is that documentation is treated as first-class citizen. Since we have documented our `Portal.Door` code, we can now easily access its documentation from the terminal. Try it out:
+One interesting aspect of Elixir is that documentation is treated as a first-class citizen. Since we have documented our `Portal.Door` code, we can now easily access its documentation from the terminal. Try it out:
 
 ```iex
 iex> h Portal.Door.start_link
