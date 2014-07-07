@@ -28,7 +28,7 @@ Let's get started!
 
 Elixir's website explains how to get Elixir up and running. Just [follow the steps described in the Interactive Elixir page](http://elixir-lang.org/getting_started/1.html).
 
-Elixir developers spend a lot of time in their Operating System terminals. That said, once installation is complete, you will have some new executables available. One of them is called `iex`. Just type `iex` in your terminal to get it up and running:
+Elixir developers spend a lot of time in their Operating System terminals; once installation is complete, you will have some new executables available. One of them is `iex`. Just type `iex` in your terminal to get it up and running:
 
     $ iex
     Interactive Elixir - press Ctrl+C to exit (type h() ENTER for help)
@@ -42,7 +42,7 @@ iex> "hello" <> " world"
 "hello world"
 ```
 
-Once we finish our portal application at the end of this tutorial, we expect to be able to type the following code inside `iex`:
+Once we finish our portal application, we expect to be able to type the following code inside `iex`:
 
 ```iex
 # Shoot two doors: one orange, another blue
@@ -51,7 +51,7 @@ iex(1)> Portal.shoot(:orange)
 iex(2)> Portal.shoot(:blue)
 {:ok, #PID<0.74.0>}
 
-# Start transfering the list [1, 2, 3, 4] from orange to blue
+# Start transferring the list [1, 2, 3, 4] from orange to blue
 iex(3)> portal = Portal.transfer(:orange, :blue, [1, 2, 3, 4])
 #Portal<
        :orange <=> :blue
@@ -81,12 +81,12 @@ The command above created a new directory named `portal` with some files in it. 
 
 Excellent, we already have a working project with a test suite set up.
 
-Let's explore the generated project using a text editor. I personally don't give much attention to text editors, I mostly use a stock [Sublime Text 3](http://www.sublimetext.com/3), but you can find [Elixir support for different text editors on the website](http://elixir-lang.org) under the "Code Editor Support" section.
+Let's explore the generated project using a text editor. I personally don't pay much attention to text editors, I mostly use a stock [Sublime Text 3](http://www.sublimetext.com/3), but you can find [Elixir support for different text editors on the website](http://elixir-lang.org) under the "Code Editor Support" section.
 
 With your editor open, explore the following directories:
 
   * `_build` - where Mix stores compilation artifacts
-  * `config` where we configure our project and its dependencies
+  * `config` - where we configure our project and its dependencies
   * `lib` - where we put our code
   * `mix.exs` - where we define our project name, version and dependencies
   * `test` - where we define our tests
@@ -120,7 +120,7 @@ iex> 2 = x
 ** (MatchError) no match of right hand side value: 1
 ```
 
-Now the sides couldn't match, so we got an error. We use pattern matching in Elixir to match data structures too. For example, we can use `[head|tail]` to extract the head (the first element) and tail (the remaining ones) from a list:
+Now the sides did not match, so we got an error. We use pattern matching in Elixir to match data structures, too. For example, we can use `[head|tail]` to extract the head (the first element) and tail (the remaining ones) from a list:
 
 ```iex
 iex> [head|tail] = [1, 2, 3]
@@ -131,7 +131,7 @@ iex> tail
 [2, 3]
 ```
 
-Matching an empty list against `[head|tail]` causes a match error too:
+Matching an empty list against `[head|tail]` causes a match error:
 
 ```iex
 iex> [head|tail] = []
@@ -149,9 +149,9 @@ iex> [0|list]
 
 ## Modeling portal doors with Agents
 
-Elixir data structures are immutable. In the examples above, we never mutated the list. We can break a list apart or add new elements to the head but the original list is never modified.
+Elixir data structures are immutable. In the examples above, we never mutated the list. We can break a list apart or add new elements to the head, but the original list is never modified.
 
-That said, when we need to keep some sort of state like the data transfering through a portal, we must use some abstraction that stores this state for us. One of such abstractions in Elixir are called agents:
+That said, when we need to keep some sort of state, like the data transfering through a portal, we must use an abstraction that stores this state for us. One such abstraction in Elixir is called an agent:
 
 ```iex
 iex> {:ok, agent} = Agent.start_link(fn -> [] end)
@@ -164,15 +164,15 @@ iex> Agent.get(agent, fn list -> list end)
 [0]
 ```
 
-> Note: you will likely get different #PID<...> values than the ones we show throughout the tutorial. Don't worry, this is expected!
+> Note: you will likely get different `#PID<...>` values than the ones we show throughout the tutorial. Don't worry, this is expected!
 
-In the example above, we have created a new agent passing a function that returns the initial state of an empty list. The agent returns `{:ok, #PID<0.61.0>}`.
+In the example above, we created a new agent, passing a function that returns the initial state of an empty list. The agent returns `{:ok, #PID<0.61.0>}`.
 
-Curly brackets in Elixir specify a tuple and the tuple above contains the atom `:ok` and a process identifier (PID). We use atoms in Elixir as tags. In the example above, we are tagging the agents as successfully started.
+Curly brackets in Elixir specify a tuple; the tuple above contains the atom `:ok` and a process identifier (PID). We use atoms in Elixir as tags. In the example above, we are tagging the agents as successfully started.
 
-The `#PID<...>` is a process identifier for the agent. When we say processes in Elixir, we don't mean Operating System processes, but rather Elixir Processes, which are light-weight and isolated, allowing us to run hundreds of thousands of them in the same machine.
+The `#PID<...>` is a process identifier for the agent. When we say processes in Elixir, we don't mean Operating System processes, but rather Elixir Processes, which are light-weight and isolated, allowing us to run hundreds of thousands of them on the same machine.
 
-We store the agent PID in the `agent` variable, which allows us to send messages to get and update the agent state.
+We store the agent's PID in the `agent` variable, which allows us to send messages to get and update the agent's state.
 
 We will use agents to implement our portal doors. Create a new file named `lib/portal/door.ex` with the following contents:
 
@@ -205,8 +205,8 @@ defmodule Portal.Door do
   @doc """
   Pops a value from the `door`.
 
-  It returns `{:ok, value}` if there is a value
-  or `:error` if the whole is currently empty.
+  Returns `{:ok, value}` if there is a value
+  or `:error` if the hole is currently empty.
   """
   def pop(door) do
     Agent.get_and_update(door, fn
@@ -217,7 +217,7 @@ defmodule Portal.Door do
 end
 ```
 
-In Elixir, we define code inside modules, which are basically a group of functions. We have defined four functions above, all properly documented.
+In Elixir we define code inside modules, which are basically a group of functions. We have defined four functions above, all properly documented.
 
 Let's give our implementation a try. Start a new shell with `iex -S mix`. When starting the shell, our new file will be automatically compiled, so we can use it directly:
 
