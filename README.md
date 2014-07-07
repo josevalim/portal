@@ -1,17 +1,17 @@
 Portal
 ======
 
-[Portal is a game](http://en.wikipedia.org/wiki/Portal_(video_game)) that comprises of a series of puzzles that must be solved by teleporting the player's character and simple objects from one place to another.
+[Portal is a game](http://en.wikipedia.org/wiki/Portal_(video_game)) that consists of a series of puzzles that must be solved by teleporting the player's character and simple objects from one place to another.
 
-In oder to teleport, the player use the Portal gun to shoot doors into flat planes, like a floor or a wall, and entering in one of those doors teleport you to the other:
+In order to teleport, the player uses the Portal gun to shoot doors onto flat planes, like a floor or a wall, entering one of those doors teleports you to the other:
 
 ![Portal transfer](portal-drop.jpeg)
 
-In this guide we will use the [Elixir programming language](http://elixir-lang.org/getting_started/1.html) to build portals by shooting doors of different colors and transfering data in between them! We will even learn how we can have doors distributed accross different machines in our network:
+In this guide we will use the [Elixir programming language](http://elixir-lang.org/getting_started/1.html) to build portals by shooting doors of different colors and transferring data between them! We will even learn how we can distribute doors across different machines in our network:
 
-![Data transter portal](portal-list.jpeg)
+![Data transfer portal](portal-list.jpeg)
 
-Here is what we will learn about:
+Here is what we will learn:
 
   * Elixir's interactive shell
   * Creating new Elixir projects
