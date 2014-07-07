@@ -49,9 +49,9 @@ Besides numbers and strings above, we also use frequently the following data typ
 ```iex
 iex> :atom           # An identifier (known as Symbols in other languages)
 :atom
-iex> [1, 2, "three"] # Lists (can hold any item)
+iex> [1, 2, "three"] # Lists (typically hold a dynamic amount of items)
 [1, 2, "three"]
-iex> {:ok, "value"}  # Tuples (can hold any item)
+iex> {:ok, "value"}  # Tuples (typically hold a fixed amount of items)
 ```
 
 Once we finish our portal application, we expect to be able to type the following code inside `iex`:
