@@ -557,7 +557,7 @@ iex> portal = Portal.transfer(orange, blue, [1, 2, 3, 4])
   {:orange, :room2@COMPUTER-NAME} <=> {:blue, :room1@COMPUTER-NAME}
           [1, 2, 3, 4] <=> []
 >
-iex> Portal.push_right(v(3))
+iex> Portal.push_right(portal)
 #Portal<
   {:orange, :room2@COMPUTER-NAME} <=> {:blue, :room1@COMPUTER-NAME}
              [1, 2, 3] <=> [4]
