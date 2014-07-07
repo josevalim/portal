@@ -240,7 +240,7 @@ iex> Portal.Door.pop(:pink)
 
 Excellent!
 
-One interesting aspect to note is that Elixir is *very* documentation driven. Since we have documented our `Portal.Door` code, we can now easily access its documentation from the terminal. Try it out:
+One interesting aspect of Elixir is that documentation is treated as first-class citizen. Since we have documented our `Portal.Door` code, we can now easily access its documentation from the terminal. Try it out:
 
 ```iex
 iex> h Portal.Door.start_link
