@@ -517,7 +517,7 @@ With our portals working, we are ready to give distributed transfers a try. This
 
 We can start an `iex` session as node inside of a network by passing the `--sname` option. Let's give it a try:
 
-    $ iex --sname room1 -S mix
+    $ iex --sname room1 --cookie secret -S mix
     Interactive Elixir - press Ctrl+C to exit (type h() ENTER for help)
     iex(room1@jv)1>
 
@@ -532,9 +532,9 @@ iex> Portal.shoot(:blue)
 
 Let's start another `iex` session named `room2`:
 
-    $ iex --sname room2 -S mix
+    $ iex --sname room2 --cookie secret -S mix
 
-> Note: if you want to start this session in another computer, you just need to have the same source code on both machines and guarantee there is a file named `~/.erlang.cookie` on both machines with the exact same content.
+> Note: the cookie has to be the same on both computers in order for the two Elixir nodes to be able to communicate with each other.
 
 The Agent API out of the box allows us to do cross-node requests. All we need to do is to pass the node name where the named agent we want to reach is running when invoking the `Portal.Door` functions. For example, let's reach the blue door in room1:
 
