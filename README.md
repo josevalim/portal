@@ -138,7 +138,7 @@ iex> [head|tail] = []
 ** (MatchError) no match of right hand side value: []
 ```
 
-Finally, we can also use the `[head|tail]` expression to add elements to the top of a list:
+Finally, we can also use the `[head|tail]` expression to add elements to the head of a list:
 
 ```iex
 iex> list = [1, 2, 3]
@@ -149,7 +149,7 @@ iex> [0|list]
 
 ## Modeling portal doors with Agents
 
-Elixir data structures are immutable. In the examples above, we never mutated the list. We can break a list apart or add new elements to the top but the original list is never modified.
+Elixir data structures are immutable. In the examples above, we never mutated the list. We can break a list apart or add new elements to the head but the original list is never modified.
 
 That said, when we need to keep some sort of state like the data transfering through a portal, we must use some abstraction that stores this state for us. One of such abstractions in Elixir are called agents:
 
@@ -264,7 +264,7 @@ iex> age
 27
 ```
 
-A struct is defined inside a module and take the same name as the module. After the struct is defined, we can use the `%User{...}` syntax to define new structs or match on them.
+A struct is defined inside a module and takes the same name as the module. After the struct is defined, we can use the `%User{...}` syntax to define new structs or match on them.
 
 Let's open up `lib/portal.ex` and add some code to the `Portal` module. Note the current `Portal` module already has a function named `start/2`. Do not remove this function, we will talk about it in the next sections, for now just add the new contents below inside the `Portal` module:
 
@@ -454,9 +454,9 @@ end
 
 We have done two changes:
 
-  * We have added a children to the supervisor, of type `worker`, and the child is represented by the module `Portal.Door`. We pass no argument to the worker, just an empty list `[]`, as the door color will be specified just later on.
+  * We have added a child specification to the supervisor, of type `worker`, and the child is represented by the module `Portal.Door`. We pass no arguments to the worker, just an empty list `[]`, as the door color will be specified later on.
 
-  * We have changed the strategy from `:one_for_one` to `:simple_one_for_one`. Supervisors provide different strategies and the `:simple_one_for_one` is useful when we want to dynamically create children, often with different arguments. This is exactly the case for our portal doors, where we want to spawn multiple doors with different colors.
+  * We have changed the strategy from `:one_for_one` to `:simple_one_for_one`. Supervisors provide different strategies and `:simple_one_for_one` is useful when we want to dynamically create children, often with different arguments. This is exactly the case for our portal doors, where we want to spawn multiple doors with different colors.
 
 The last step is to add a function named `shoot/1` to the `Portal` module that receives a color and spawns a new door as part of the supervision tree:
 
@@ -469,7 +469,7 @@ def shoot(color) do
 end
 ```
 
-The function above reaches the supervisor named `Portal.Supervisor` and ask a new child to be started. `Portal.Supervisor` is the name of the supervisor we have defined in `start/2` and the child is going to be a `Portal.Door` which was specified as a worker of that supervisor.
+The function above reaches the supervisor named `Portal.Supervisor` and asks for a new child to be started. `Portal.Supervisor` is the name of the supervisor we have defined in `start/2` and the child is going to be a `Portal.Door` which was specified as a worker of that supervisor.
 
 Internally, to start the child, the supervisor will invoke `Portal.Door.start_link(color)`, where color is the value passed on the `start_child/2` call above. If we had invoked `Supervisor.start_child(Portal.Supervisor, [foo, bar, baz])`, the supervisor would have attempted to start a child with `Portal.Door.start_link(foo, bar, baz)`.
 
@@ -513,11 +513,11 @@ Outstanding!
 
 ## Distributed transfers
 
-With our portals working, we are ready to give distributed transfers a try. This can be extra awesome if you launch the code in two different machines in the same network. However, if you don't have another machine handy, it will work just fine.
+With our portals working, we are ready to give distributed transfers a try. This can be extra awesome if you launch the code on two different machines on the same network. However, if you don't have another machine handy, it will work just fine.
 
 We can start an `iex` session as node inside of a network by passing the `--sname` option. Let's give it a try:
 
-    $ iex --sname room1 -S mix
+    $ iex --sname room1 --cookie secret -S mix
     Interactive Elixir - press Ctrl+C to exit (type h() ENTER for help)
     iex(room1@jv)1>
 
@@ -532,9 +532,9 @@ iex> Portal.shoot(:blue)
 
 Let's start another `iex` session named `room2`:
 
-    $ iex --sname room2 -S mix
+    $ iex --sname room2 --cookie secret -S mix
 
-> Note: if you want to start this session in another computer, you just need to have the same source code on both machines and guarantee there is a file named `~/.erlang.cookie` on both machines with the exact same content.
+> Note: the cookie has to be the same on both computers in order for the two Elixir nodes to be able to communicate with each other.
 
 The Agent API out of the box allows us to do cross-node requests. All we need to do is to pass the node name where the named agent we want to reach is running when invoking the `Portal.Door` functions. For example, let's reach the blue door in room1:
 
@@ -554,12 +554,12 @@ iex> blue = {:blue, :"room1@COMPUTER-NAME"}
 {:blue, :"room1@COMPUTER-NAME"}
 iex> portal = Portal.transfer(orange, blue, [1, 2, 3, 4])
 #Portal<
-  {:orange, :room2@jv} <=> {:blue, :room1@jv}
+  {:orange, :room2@COMPUTER-NAME} <=> {:blue, :room1@COMPUTER-NAME}
           [1, 2, 3, 4] <=> []
 >
-iex> Portal.push_right(v(3))
+iex> Portal.push_right(portal)
 #Portal<
-  {:orange, :room2@jv} <=> {:blue, :room1@jv}
+  {:orange, :room2@COMPUTER-NAME} <=> {:blue, :room1@COMPUTER-NAME}
              [1, 2, 3] <=> [4]
 >
 
