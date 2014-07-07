@@ -138,7 +138,7 @@ iex> [head|tail] = []
 ** (MatchError) no match of right hand side value: []
 ```
 
-Finally, we can also use the `[head|tail]` expression to add elements to the top of a list:
+Finally, we can also use the `[head|tail]` expression to add elements to the head of a list:
 
 ```iex
 iex> list = [1, 2, 3]
@@ -149,7 +149,7 @@ iex> [0|list]
 
 ## Modeling portal doors with Agents
 
-Elixir data structures are immutable. In the examples above, we never mutated the list. We can break a list apart or add new elements to the top but the original list is never modified.
+Elixir data structures are immutable. In the examples above, we never mutated the list. We can break a list apart or add new elements to the head but the original list is never modified.
 
 That said, when we need to keep some sort of state like the data transfering through a portal, we must use some abstraction that stores this state for us. One of such abstractions in Elixir are called agents:
 
