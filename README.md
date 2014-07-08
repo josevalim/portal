@@ -28,7 +28,7 @@ Let's get started!
 
 Elixir's website explains how to get Elixir up and running. Just [follow the steps described in the Interactive Elixir page](http://elixir-lang.org/getting_started/1.html).
 
-Elixir developers spend a lot of time in their Operating System terminals; once installation is complete, you will have some new executables available. One of them is `iex`. Just type `iex` in your terminal to get it up and running:
+Elixir developers spend a lot of time in their Operating System terminals; once installation is complete, you will have some new executables available. One of them is `iex`. Just type `iex` in your terminal (or `iex.bat` if you are on Windows) to get it up and running:
 
     $ iex
     Interactive Elixir - press Ctrl+C to exit (type h() ENTER for help)
