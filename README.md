@@ -52,6 +52,7 @@ iex> :atom           # An identifier (known as Symbols in other languages)
 iex> [1, 2, "three"] # Lists (typically hold a dynamic amount of items)
 [1, 2, "three"]
 iex> {:ok, "value"}  # Tuples (typically hold a fixed amount of items)
+{:ok, "value"}
 ```
 
 Once we finish our portal application, we expect to be able to type the following code inside `iex`:
@@ -163,7 +164,16 @@ iex> [0|list]
 
 Elixir data structures are immutable. In the examples above, we never mutated the list. We can break a list apart or add new elements to the head, but the original list is never modified.
 
-That said, when we need to keep some sort of state, like the data transfering through a portal, we must use an abstraction that stores this state for us. One such abstraction in Elixir is called an agent:
+That said, when we need to keep some sort of state, like the data transfering through a portal, we must use an abstraction that stores this state for us. One such abstraction in Elixir is called an agent. To use agents, we need to briefly talk about anonymous functions before:
+
+```iex
+iex> adder = fn a, b -> a + b end
+#Function<12.90072148/2 in :erl_eval.expr/5>
+iex> adder.(1, 2)
+3
+```
+
+A anonymous function is delimited by the words `fn` and `end` and an arrow `->` is used to separate the arguments from the anonymous function body. We use anonymous functions to initialize, get and update the agent state:
 
 ```iex
 iex> {:ok, agent} = Agent.start_link(fn -> [] end)
@@ -180,7 +190,7 @@ iex> Agent.get(agent, fn list -> list end)
 
 In the example above, we created a new agent, passing a function that returns the initial state of an empty list. The agent returns `{:ok, #PID<0.61.0>}`.
 
-Curly brackets in Elixir specify a tuple; the tuple above contains the atom `:ok` and a process identifier (PID). We use atoms in Elixir as tags. In the example above, we are tagging the agents as successfully started.
+Curly brackets in Elixir specify a tuple; the tuple above contains the atom `:ok` and a process identifier (PID). We use atoms in Elixir as tags. In the example above, we are tagging the agent as successfully started.
 
 The `#PID<...>` is a process identifier for the agent. When we say processes in Elixir, we don't mean Operating System processes, but rather Elixir Processes, which are light-weight and isolated, allowing us to run hundreds of thousands of them on the same machine.
 
