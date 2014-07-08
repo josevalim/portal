@@ -603,6 +603,8 @@ We challenge you to continue learning and exploring more of Elixir by taking you
 
   * Push your project to an external source, like [Github](https://github.com), and publish a package using the [Hex package manager](https://hex.pm).
 
-Finally, we welcome you to explore our [website](http://elixir-lang.org) and read our Getting Started guide or many of the available resources to learn more about Elixir and our vibrant community.
+We welcome you to explore our [website](http://elixir-lang.org) and read our Getting Started guide or many of the available resources to learn more about Elixir and our vibrant community.
+
+Finally, huge thanks to [Augie De Blieck Jr.](http://twitter.com/augiedb) for the drawings in this tutorial. You can read more about his contributions to the Elixir Community on his blog [Various and Sundry](http://www.variousandsundry.com/cs).
 
 See you around!
