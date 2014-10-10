@@ -5,6 +5,9 @@ defmodule Portal.Mixfile do
     [app: :portal,
      version: "0.0.1",
      elixir: "~> 1.0.0",
+     name: "portal",
+     source_url: "https://github.com/my-flow/portal",
+     homepage_url: "https://github.com/my-flow/portal",
      deps: deps]
   end
 
@@ -26,6 +29,7 @@ defmodule Portal.Mixfile do
   #
   # Type `mix help deps` for more examples and options
   defp deps do
-    []
+    [{:earmark, "~> 0.1", only: :dev},
+     {:ex_doc,  "~> 0.6", only: :dev}]
   end
 end

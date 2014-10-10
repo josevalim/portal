@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Portal.Door</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="css/style.css" type="text/css" media="screen" charset="utf-8" />
+
+    <script type="text/javascript" charset="utf-8">
+      relpath = '';
+      if (relpath != '') relpath += '/';
+    </script>
+
+    <script type="text/javascript" charset="utf-8" src="js/jquery.js"></script>
+    <script type="text/javascript" charset="utf-8" src="js/app.js"></script>
+  </head>
+
+  <body>
+    <script type="text/javascript" charset="utf-8">
+      if (window.top.frames.main) document.body.className = 'frames';
+    </script>
+
+    <div id="content">
+      <div class="breadcrumbs">portal v0.0.1 &rarr; <a href="overview.html">Overview</a> &rarr; <a href="Portal.html">Portal</a> &rarr; <a href="Portal.Door.html">Door</a></div>
+
+      <h1>
+        Portal.Door
+        
+      </h1>
+
+      <ul class="summary_links">
+        
+          <li><a href="#summary">Summary</a></li>
+        
+        
+          <li><a href="#functions_details">Functions</a></li>
+        
+        
+        
+        
+      </ul>
+
+      
+
+      
+        <a href="https://github.com/my-flow/portal/blob/master/lib/portal/door.ex#L1" class="view_source">Source</a>
+      
+
+      
+        <h2 id="summary">Summary<div class="detail_header_links"><a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a></div></h2>
+        <table class="summary">
+          <tr>
+  <td class="summary_signature"><a href="#get/1">get(door)</a></td>
+  
+    <td class="summary_synopsis"><p>Get the data currently in the <code class="inline">door</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#pop/1">pop(door)</a></td>
+  
+    <td class="summary_synopsis"><p>Pops a value from the <code class="inline">door</code></p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#push/2">push(door, value)</a></td>
+  
+    <td class="summary_synopsis"><p>Push <code class="inline">value</code> into the door</p>
+</td>
+  
+</tr>
+<tr>
+  <td class="summary_signature"><a href="#start_link/1">start_link(color)</a></td>
+  
+    <td class="summary_synopsis"><p>Starts a door with the given <code class="inline">color</code></p>
+</td>
+  
+</tr>
+
+        </table>
+      
+
+      
+
+      
+        <div id="functions_details" class="details_list">
+          <h2>Functions</h2>
+          <div class="detail">
+  <div class="detail_header" id="get/1">
+    <span class="signature"><strong>get(door)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#get/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Get the data currently in the <code class="inline">door</code>.</p>
+</div>
+  
+    <a href="https://github.com/my-flow/portal/blob/master/lib/portal/door.ex#L15" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="pop/1">
+    <span class="signature"><strong>pop(door)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#pop/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Pops a value from the <code class="inline">door</code>.</p>
+<p>It returns <code class="inline">{:ok, value}</code> if there is a value
+or <code class="inline">:error</code> if the whole is currently empty.</p>
+</div>
+  
+    <a href="https://github.com/my-flow/portal/blob/master/lib/portal/door.ex#L32" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="push/2">
+    <span class="signature"><strong>push(door, value)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#push/2" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Push <code class="inline">value</code> into the door.</p>
+</div>
+  
+    <a href="https://github.com/my-flow/portal/blob/master/lib/portal/door.ex#L22" class="view_source">Source</a>
+  
+</div>
+<div class="detail">
+  <div class="detail_header" id="start_link/1">
+    <span class="signature"><strong>start_link(color)</strong></span>
+    <div class="detail_header_links">
+      <span class="detail_type">(function)</span>
+      <a href="#start_link/1" class="detail_link" title="Link to this function">#</a>
+      <a class="to_top_link" href="#content" title="To the top of the page">&uarr;</a>
+    </div>
+  </div>
+  
+  <div class="docstring"><p>Starts a door with the given <code class="inline">color</code>.</p>
+<p>The color is given as a name so we can identify
+the door by color name instead of using a PID.</p>
+</div>
+  
+    <a href="https://github.com/my-flow/portal/blob/master/lib/portal/door.ex#L8" class="view_source">Source</a>
+  
+</div>
+
+        </div>
+      
+
+      
+
+      
+    </div>
+  </body>
+</html>
