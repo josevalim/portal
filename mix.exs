@@ -4,8 +4,8 @@ defmodule Portal.Mixfile do
   def project do
     [app: :portal,
      version: "0.0.1",
-     elixir: "~> 1.0.0",
-     deps: deps]
+     elixir: "~> 1.0",
+     deps: deps()]
   end
 
   # Configuration for the OTP application
