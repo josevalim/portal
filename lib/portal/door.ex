@@ -1,4 +1,6 @@
 defmodule Portal.Door do
+  use Agent
+
   @doc """
   Starts a door with the given `color`.
 
@@ -17,22 +19,22 @@ defmodule Portal.Door do
   end
 
   @doc """
-  Push `value` into the door.
+  Pushes `value` into the door.
   """
   def push(door, value) do
-    Agent.update(door, fn list -> [value|list] end)
+    Agent.update(door, fn list -> [value | list] end)
   end
 
   @doc """
   Pops a value from the `door`.
 
-  It returns `{:ok, value}` if there is a value
-  or `:error` if the whole is currently empty.
+  Returns `{:ok, value}` if there is a value
+  or `:error` if the hole is currently empty.
   """
   def pop(door) do
     Agent.get_and_update(door, fn
-      []    -> {:error, []}
-      [h|t] -> {{:ok, h}, t}
+      [] -> {:error, []}
+      [h | t] -> {{:ok, h}, t}
     end)
   end
 end
